@@ -1,0 +1,29 @@
+--- a/os_dep/linux/ioctl_cfg80211.c
++++ b/os_dep/linux/ioctl_cfg80211.c
+@@ -1668,7 +1668,7 @@
+ #endif
+ 	, u8 key_index
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
+         , bool pairwise
+ #else
+         , enum nl80211_key_type pairwise
+@@ -1831,7 +1831,7 @@
+ #endif
+ 	, u8 keyid
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
+         , bool pairwise
+ #else
+         , enum nl80211_key_type pairwise
+@@ -2009,7 +2009,7 @@
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
+         int link_id,
+ #endif
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
+         u8 key_index, bool pairwise, const u8 *mac_addr)
+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
+         u8 key_index, enum nl80211_key_type pairwise, const u8 *mac_addr)

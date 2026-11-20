@@ -1,0 +1,193 @@
+﻿RTL8189FS DRIVER BUILD INFORMATION
+
+Hardware:
+  HG680P / Amlogic S905X
+  WiFi: RTL8189FS SDIO
+  SDIO ID: 024C:F179
+  Architecture: arm64
+
+Driver Source:
+  Repository: https://github.com/jwrdegoede/rtl8189ES_linux.git
+  Branch: rtl8189fs
+  Commit: 13bbdbc
+
+Configuration:
+  CONFIG_RTL8188F=y
+  CONFIG_SDIO_HCI=y
+  CONFIG_PLATFORM_AML_S905=y
+  CONFIG_USB_HCI=n
+  CONFIG_GSPI_HCI=n
+
+Kernel Compatibility:
+  Compatibility is based on the exact kernel build,
+  not the Linux distribution.
+  Modules must match the target kernel vermagic.
+
+==================================================
+BUILD 1 - Kernel 6.18.63-ophub
+==================================================
+
+Modules:
+  8189fs.ko
+  8189fs-6.18.63-ophub.ko
+
+Build Environment:
+  Armbian 26.11.0 Debian Bookworm
+  GCC 12.2.0
+  aarch64-linux-gnu-gcc 12.2.0
+
+Build Command:
+  make KSRC=/lib/modules/$(uname -r)/build ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= -j2
+
+Test Environments:
+  Debian Bookworm
+  Debian Trixie
+  Ubuntu Noble
+
+Test Status:
+  Module load: PASS
+  WiFi detection: PASS
+  WiFi scan: PASS
+  STA connection: PASS
+  Internet connectivity: PASS
+  AP mode: PASS
+  Concurrent STA + AP: PASS
+
+SHA256:
+  6552b2edba4cd1e670a1cfa0151a660f1621125d732d5921b636429250a44862
+
+==================================================
+BUILD 2 - Kernel 6.18.59-ophub
+==================================================
+
+Module:
+  8189fs-6.18.59-ophub.ko
+
+Build Environment:
+  Armbian 26.11.0 Debian Trixie
+  GCC 14.2.0
+
+Build Command:
+  make KSRC=/lib/modules/$(uname -r)/build ARCH=arm64 CROSS_COMPILE= CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= -j2
+
+Kernel API Compatibility:
+  cfg80211 key callbacks use bool pairwise
+  for kernel version 6.18 and newer.
+
+Test Environments:
+  Debian Bookworm
+  Debian Trixie
+  Ubuntu Noble
+
+Test Status:
+  Module load: PASS
+  WiFi detection: PASS
+  WiFi scan: PASS
+  STA connection: PASS
+  Internet connectivity: PASS
+  AP mode: PASS
+
+SHA256:
+  964575fc8b8c85087be918fa45bc717e356353ac2b5e3e3a4e221261409956ee
+
+==================================================
+BUILD 3 - Kernel 6.12.114-ophub
+==================================================
+
+Module:
+  8189fs-6.12.114-ophub.ko
+
+Build Environment:
+  Armbian 26.11.0 Ubuntu Resolute
+  GCC 15.2.0
+  Kernel headers built with GCC 15.3.1
+
+Build Command:
+  make KSRC=/lib/modules/$(uname -r)/build ARCH=arm64 CROSS_COMPILE= CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= -j2
+
+Kernel API Compatibility:
+  cfg80211 key callbacks use bool pairwise
+  for kernel version 6.12 and newer.
+
+Test Environment:
+  Ubuntu Resolute
+
+Test Status:
+  Module load: PASS
+  WiFi detection: PASS
+  WiFi scan: PASS
+  STA connection: PASS
+  Internet connectivity: PASS
+  AP mode: Not tested
+
+SHA256:
+  ff0e571b24ac4bb5865612c11eb4a0eace1f9c83f64ffd34f5c091444e553fc9
+
+==================================================
+BUILD 4 - Kernel 6.12.117-ophub
+==================================================
+
+Module:
+  8189fs-6.12.117-ophub.ko
+
+Build Environment:
+  Armbian 26.11.0 Ubuntu Resolute
+  GCC 15.2.0
+
+Source:
+  Experiment 3 master + kernel 6.12 compatibility patch
+
+Build Command:
+  make KSRC=/lib/modules/$(uname -r)/build ARCH=arm64 CROSS_COMPILE= CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= -j2
+
+Test Environment:
+  Ubuntu Resolute
+
+Test Status:
+  Build: PASS
+  Module load: PASS
+  WiFi interface detection: PASS
+  WiFi scan: PASS
+  STA connection: PASS
+  Internet ping: PASS (0% packet loss)
+  AP mode: Not tested
+
+SHA256:
+  f6cdd4a4f25b48d7f54dd7db39181f15bd72deb3e0044b858bdb7d025db6f467
+
+==================================================
+PATCH AND BUILD NOTES
+==================================================
+
+Kernel cfg80211 compatibility patches:
+  rtl8189fs-kernel-6.12.patch
+  rtl8189fs-kernel-6.18.patch
+
+Kernel 6.12:
+  Three cfg80211 key callbacks changed from
+  enum nl80211_key_type pairwise to bool pairwise
+  for kernel version 6.12 and newer.
+
+Kernel 6.18:
+  Additional cfg80211 API compatibility changes
+  are included in the 6.18 patch.
+
+Bookworm build:
+  Original kernel headers contained a modpost binary
+  requiring GLIBC 2.38.
+  Rebuilt modpost using system GCC 12.2.0.
+  This workaround may be needed on Debian Bookworm
+  with GLIBC 2.36.
+
+Trixie build:
+  Kernel headers used:
+  /usr/src/linux-headers-6.18.59-ophub
+  No modpost GLIBC workaround was required.
+
+IMPORTANT:
+  Always use the module matching the target kernel.
+  Modules built for different kernel versions are
+  not interchangeable.
+
+  Cross-distribution tests do not imply compatibility
+  with other kernel builds.
