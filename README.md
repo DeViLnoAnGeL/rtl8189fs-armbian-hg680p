@@ -80,18 +80,25 @@ Reboot after installation.
 
 ## Uninstallation
 
-Run:
+If the RTL8189FS driver is currently loaded, unload it first:
+
+    sudo modprobe -r 8189fs
+
+**Note:** If you are connected through this Wi-Fi adapter, your connection will be disconnected. Use a wired connection or local console.
+
+Run the uninstaller as root:
 
     sudo ./uninstall.sh
 
-The uninstaller removes the installed driver and restores a compatible original module backup when available.
+The uninstaller removes the installed driver and restores the original compatible module backup when available.
 
 Backups are stored under:
 
     /var/backups/rtl8189fs/
 
-Reboot after uninstallation.
+If no original backup exists, the installed driver is removed without restoring another module.
 
+Reboot after uninstallation.
 ## Manual Loading Test
 
 Unload the currently loaded driver:
@@ -133,3 +140,4 @@ Repository: https://github.com/jwrdegoede/rtl8189ES_linux
 Branch: `rtl8189fs`
 
 Source commit: `13bbdbc`
+
